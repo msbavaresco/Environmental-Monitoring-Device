@@ -16,23 +16,33 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 //==============================================================================
-#include "scd4x_i2c.h"
-#include "sensirion_common.h"
-#include "sensirion_i2c_hal.h"
+#include "./Sensirion/sensirion_config.h"
+#include "./Sensirion/sensirion_i2c.h"
+#include "./Sensirion/scd4x_i2c.h"
+#include "./Sensirion/sensirion_common.h"
+#include "./Sensirion/sensirion_i2c_hal.h"
 #include "SCD41_Reading.h"
 //==============================================================================
 int SCD41_single_shot( SCD41_Reading_t &reading )
     {
+    int i;
+
     if( scd4x_wake_up() != NO_ERROR )
         return -1;
 
-    sensirion_sleep_msec( 30 );
+    scd4x_measure_single_shot();
 
-    if( scd4x_measure_and_read_single_shot(&reading.CO2, &reading.temperature, &reading.humidity) != NO_ERROR )
-        return -1;
-
+    for(i = 0; i < 10 && scd4x_measure_and_read_single_shot(&reading.CO2, &reading.temperature, &reading.humidity) != NO_ERROR; i++)
+        {}
+    
     scd4x_power_down();
 
-    return 1;
+    return i < 10 ? 1 : -2;
+    }
+//==============================================================================
+void SCD41_Init()
+    {
+    sensirion_i2c_hal_init();
+    scd4x_init(SCD41_I2C_ADDR_62);
     }
 //==============================================================================

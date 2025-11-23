@@ -17,16 +17,24 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 */
 //==============================================================================
 #include "SCD41_Reading.h"
-#include "CppTimer.h"
+#include "./CppTimer/CppTimer.h"
 //==============================================================================
 class Timer1 : public CppTimer
     {
     void timerEvent() override
         {
         SCD41_Reading_t reading;
+        int error;
         
-        SCD41_single_shot( reading );
+        error = SCD41_single_shot( reading );
 
+        if(error == -1)
+            fprintf( stderr, "Failed to wake up\n");
+
+        else if( error == -2 )
+            fprintf( stderr, "Failed to measure and read\n");
+
+        else
         fprintf(stdout,
                 "CO2: %d\r\n"
                 "Temperature: %f\r\n"
@@ -34,13 +42,16 @@ class Timer1 : public CppTimer
                 reading.CO2,
                 reading.temperature,
                 reading.humidity);
-        }
+        };
     };
 //==============================================================================
 int main()
     {
     Timer1 timer1;
-    timer1.startms(1500);
+
+    SCD41_Init();
+
+    timer1.startms(90000);
 
     while (true)
         {

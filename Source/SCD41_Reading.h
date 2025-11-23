@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 //==============================================================================
 #ifndef __SCD41_READING_H__
 #define __SCD41_READING_H__
+#include <cstdint>
 //==============================================================================
 typedef struct 
     {
@@ -26,7 +27,8 @@ typedef struct
     float       humidity;
     } SCD41_Reading_t;
 //==============================================================================
-int SCD41_single_shot( SCD41_Reading_t &reading );
+int     SCD41_single_shot   ( SCD41_Reading_t &reading );
+void    SCD41_Init          ();
 //==============================================================================
 #endif
 //==============================================================================
