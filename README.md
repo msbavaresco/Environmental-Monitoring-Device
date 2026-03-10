@@ -18,7 +18,7 @@ This project is a device that measures CO2 concentration, temperature and relati
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/msbavaresco@gmail.com/Environmental-Monitoring-Device.git
+git clone https://github.com/msbavaresco/Environmental-Monitoring-Device.git
 cd Environmental-Monitoring-Device
 ```
 
