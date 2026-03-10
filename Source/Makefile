@@ -1,39 +1,41 @@
-CXX = g++
-CC = gcc
-C_FLAGS = -Wall -c
-CXX_FLAGS = -Wall -D__STDC_LIMIT_MACROS -c
+CXX := g++
+CC  := gcc
 
-OUTPUTDIR = ./bin/
-MKDIR = mkdir -p $(OUTPUTDIR)
-RM = rm
+TARGET := bin/project
 
-C_SOURCES = \
+CFLAGS   := -Wall -O2
+CXXFLAGS := -Wall -O2 -std=c++17 -D__STDC_LIMIT_MACROS
+LDLIBS   := -lpaho-mqttpp3 -lpaho-mqtt3as -lpthread
+
+C_SOURCES := \
 	Sensirion/scd4x_i2c.c \
 	Sensirion/sensirion_common.c \
 	Sensirion/sensirion_i2c.c \
 	Sensirion/sensirion_i2c_hal.c
 
-CXX_SOURCES = \
+CPP_SOURCES := \
 	main.cpp \
 	SCD41_Reading.cpp
 
-C_OBJS = $(C_SOURCES:.c=.o)
-CXX_OBJS = $(CXX_SOURCES:.cpp=.o)
+C_OBJS   := $(C_SOURCES:.c=.o)
+CPP_OBJS := $(CPP_SOURCES:.cpp=.o)
 
-all: project
+OBJS := $(C_OBJS) $(CPP_OBJS)
 
-project: $(C_OBJS) $(CXX_OBJS)
-	$(MKDIR)
-	$(CXX) $(C_OBJS) $(CXX_OBJS) -o $(OUTPUTDIR)/project
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	mkdir -p bin
+	$(CXX) $(OBJS) -o $(TARGET) $(LDLIBS)
 
 %.o: %.c
-	$(CC) $(C_FLAGS) $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 %.o: %.cpp
-	$(CXX) $(CXX_FLAGS) $< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-.PHONY: clean
 clean:
-	$(RM) -rf $(OUTPUTDIR)
-	$(RM) ./*.o
-	$(RM) ./*.gc??
+	rm -f $(OBJS)
+	rm -rf bin
+
+.PHONY: all clean
