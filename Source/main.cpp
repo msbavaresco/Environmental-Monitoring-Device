@@ -379,9 +379,7 @@ int main()
             }
 	
 		// Save reading locally
-        Save_Data(reading,
-                  cfg.device.location.c_str(),
-                  device_id.c_str());
+        Save_Data(reading, cfg.device.location.c_str(), device_id.c_str());
 
 		// Publish reading to MQTT broker
         MQTT_Publish(reading, cfg, device_id);
