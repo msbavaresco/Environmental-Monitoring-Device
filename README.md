@@ -70,7 +70,7 @@ sudo mkdir -p /var/lib/ThisDevice
 ### 5. Copy the example configuration file
 
 ```bash
-sudo cp config/config.example.json /var/lib/ThisDevice/config.json
+sudo cp Source/config/config.example.json /var/lib/ThisDevice/config.json
 ```
 
 ### 6. Edit the configuration file
@@ -103,6 +103,7 @@ Example:
 ### 7. Build the project
 
 ```bash
+cd Source
 make
 ```
 
