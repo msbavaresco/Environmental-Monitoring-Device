@@ -59,6 +59,7 @@ void SDCardWriter::HasNewData(SCD4xReading reading)
 
     strftime(timestamp, sizeof(timestamp), "%Y-%m-%dT%H:%M:%SZ", &t);
 
+    // Ensure logging directories exist
     snprintf(dirName, sizeof(dirName),
              "./logs/%s",
              config.device.id.c_str());
@@ -66,12 +67,14 @@ void SDCardWriter::HasNewData(SCD4xReading reading)
     mkdir("./logs", 0755);
     mkdir(dirName, 0755);
 
+    // Monthly CSV file
     snprintf(fileName, sizeof(fileName),
              "%s/%04u-%02u.csv",
              dirName,
              currentYear,
              currentMonth);
 
+    // Open file for append
     dataLog = fopen(fileName, "a+");
     if (!dataLog)
         {
@@ -79,6 +82,7 @@ void SDCardWriter::HasNewData(SCD4xReading reading)
         return;
         }
 
+    // If file is new, write CSV header
     fseek(dataLog, 0, SEEK_END);
     long size = ftell(dataLog);
 
@@ -88,6 +92,7 @@ void SDCardWriter::HasNewData(SCD4xReading reading)
                 "timestamp_utc,device_id,location,co2_ppm,temperature_c,rh_percent\n");
         }
 
+    // Write sensor reading
     fprintf(dataLog, "%s,%s,%s,%u,%.1f,%.1f\n",
             timestamp,
             config.device.id.c_str(),
@@ -98,6 +103,7 @@ void SDCardWriter::HasNewData(SCD4xReading reading)
 
     fclose(dataLog);
 
+    // Print to screen for debugging
     printf("[%s] Device: %s | Location: %s | CO2: %u ppm | Temp: %.1f C | RH: %.1f %%\n",
            timestamp,
            config.device.id.c_str(),
@@ -106,6 +112,7 @@ void SDCardWriter::HasNewData(SCD4xReading reading)
            reading.temperature,
            reading.humidity);
 
+    // Remove file older than 1 year (same month)
     snprintf(oldFileName, sizeof(oldFileName),
              "%s/%04u-%02u.csv",
              dirName,
