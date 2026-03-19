@@ -43,15 +43,15 @@ void JSONReader::ParseConfig()
     json j;
     file >> j;
 
-    config.mqtt.host           = j["mqtt"].value("host", "");
-    config.mqtt.port           = j["mqtt"].value("port", 1883);
-    config.mqtt.username       = j["mqtt"].value("username", "");
-    config.mqtt.password       = j["mqtt"].value("password", "");
-    config.mqtt.base_topic     = j["mqtt"].value("base_topic", "env");
+    config.mqtt.host                = j["mqtt"].value("host", "");
+    config.mqtt.port                = j["mqtt"].value("port", 1883);
+    config.mqtt.username            = j["mqtt"].value("username", "");
+    config.mqtt.password            = j["mqtt"].value("password", "");
+    config.mqtt.base_topic          = j["mqtt"].value("base_topic", "env");
 
-    config.device.location     = j["device"].value("location", "");
-    config.device.id           = j["device"].value("id", "");
-    config.device.interval     = j["device"].value("interval", 15);
+    config.device.location          = j["device"].value("location", "");
+    config.device.id                = j["device"].value("id", "");
+    config.device.interval_minutes  = j["device"].value("interval_minutes", 15);
     }
 //==============================================================================
 const Config& JSONReader::GetConfig() const
