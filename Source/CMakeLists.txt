@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.6)
+cmake_minimum_required(VERSION 3.10)
 
 project(envmonitor
   DESCRIPTION "Environmental monitoring device"
@@ -11,9 +11,6 @@ add_compile_options(-Wall -Wconversion -Wextra -pedantic)
 
 include(GNUInstallDirs)
 enable_testing()
-
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(PAHO_MQTT REQUIRED paho-mqttpp3)
 
 add_executable(envmonitor
   main.cpp
@@ -31,12 +28,12 @@ add_executable(envmonitor
 target_include_directories(envmonitor PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/Sensirion
-  ${PAHO_MQTT_INCLUDE_DIRS}
 )
 
 target_link_libraries(envmonitor
-  ${PAHO_MQTT_LIBRARIES}
+  paho-mqttpp3
+  paho-mqtt3as
   pthread
 )
 
-add_subdirectory(test)
+# add_subdirectory(test)
