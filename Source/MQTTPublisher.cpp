@@ -22,7 +22,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 #include <ctime>
 #include <nlohmann/json.hpp>
 //==============================================================================
-using json = nlohmann::json;
+using json = nlohmann::ordered_json;
 //==============================================================================
 void MQTTPublisher::start(const Config& cfg)
     {
