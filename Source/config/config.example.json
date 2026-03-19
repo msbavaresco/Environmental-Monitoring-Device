@@ -1,8 +1,4 @@
 {
-  "wifi": {
-    "configured": false,
-    "ssid": ""
-  },
   "mqtt": {
     "host": "192.168.1.91",
     "port": 1883,
@@ -11,6 +7,8 @@
     "base_topic": "env"
   },
   "device": {
-    "location": ""
+    "location": "Office",
+    "id": "Sensor1",
+    "interval_minutes": 15
   }
 }
