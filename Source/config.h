@@ -33,7 +33,7 @@ struct DeviceConfig
     {
     std::string location;
     std::string id;
-    int         interval;
+    int         interval_minutes;
     };
 
 struct Config
