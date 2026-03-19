@@ -20,6 +20,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 #define MQTTPUBLISHER_H
 
 #include <string>
+#include <memory>
+#include <mqtt/async_client.h>
 #include "config.h"
 #include "SCD4xReading.h"
 //==============================================================================
@@ -32,6 +34,7 @@ class MQTTPublisher
 
     private:
         std::string ReadingToJSON(const SCD4xReading& reading) const;
+        std::unique_ptr<mqtt::async_client> client;
         Config config;
 };
 //==============================================================================
